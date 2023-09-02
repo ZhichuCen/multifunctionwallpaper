@@ -26,7 +26,7 @@ def calc_date():
     people = data['people']
     zrbz = data['zrbz']
     day = datetime.date.today().weekday() + 1
-    day = 4
+    # day = 4
     if newest_date != str(datetime.date.today()):
         if day != 5 and day != 6 and day != 7:
             people += 2
@@ -107,7 +107,7 @@ def set_wp():
     father_path = path.abspath(path.dirname(current_path) + path.sep + ".")
     filepath = path.join(father_path, 'wallpaper.png')
 
-    # ctypes.windll.user32.SystemParametersInfoW(20, 0, filepath, 0)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, filepath, 0)
 
 
 calc_date()
