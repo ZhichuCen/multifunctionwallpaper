@@ -93,7 +93,7 @@ def create_wp(txt1, txt2, people, zrbz):
     # print( countdownColor)
     draw.text((width - 450, height / 2 - 80), zhiri_txt, fill=(146, 182, 213), font=font2, align='center')
     draw.text((width / 2 - font.getsize(txt1)[0] / 2, 0), txt1, fill=countdownColor, font=font, align='center')
-    draw.text((width / 2 - font.getsize(txt2)[0] / 2, font.getsize(txt2)[1]), txt2, fill=countdownColor_2, font=font, align='center')
+    draw.text((width / 2 - font.getsize(txt2)[0] / 2, font.getsize(txt1)[1]), txt2, fill=countdownColor_2, font=font, align='center')
     draw.text((0, 240), str(datetime.date.today()), fill=(146, 182, 213), font=font2, align='left')
     # draw.text((1400,400 ), zhiri_txt, fill=(150,150,150), font=font2)
     # txt2 = '教师节倒计时0天'
