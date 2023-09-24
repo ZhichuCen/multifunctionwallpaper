@@ -1,5 +1,6 @@
 import ctypes
 from PIL import Image, ImageFont, ImageDraw
+import os
 from os import path
 import json
 import datetime
@@ -28,8 +29,9 @@ def calc_date():
     day = datetime.date.today().weekday() + 1
     # day = 4
     if newest_date != str(datetime.date.today()):
-        if day != 5 and day != 6 and day != 7:
-            people += 2
+        # if day != 5 and day != 6 and day != 7:
+        if day != 6 and day != 7:
+            people += 3
         if day != 6 and day != 7:
             zrbz += 1
         data['newest_date'] = str(datetime.date.today())
@@ -54,24 +56,44 @@ def yu(x):
 
 
 def create_wp(txt1, txt2, people, zrbz):
-    font = ImageFont.truetype('ping.ttf', 150)
+    # font = ImageFont.truetype('ping.ttf', 150)
+    
+    font = ImageFont.truetype('Genshin.ttf', 150)
     font2 = ImageFont.truetype('ping.ttf', 50)
     width = 1920 * 2
     height = 1080 * 2
-    # image = Image.new('RGB', (width, height), (199, 237, 204))
-    image = Image.open("kebiao/课表-{}.jpg".format(str(day)))
-    # image.resize(1920, 108)
 
-    draw = ImageDraw.Draw(image)
+    if 1<=day<=5:
+        image = Image.open("kebiao/课表-{}.jpg".format(str(day)))
+        kebiao = Image.open("kebiao/wallpaper-{}.png".format(str(day)))
+        
+
+    else:
+        image = Image.new('RGB', (width, height), (199, 237, 204))
+        kebiao = Image.new('RGBA',(width,height),(0,0,0,0))
+    # image.resize(1920, 108)
+    bg_path=os.path.join(os.path.expanduser('~'),"Desktop","壁纸")
+    bg_list=os.listdir(bg_path)
+    bg_file=os.path.join(bg_path,bg_list[0])
+    # print(bg_list)
+    bg = Image.open(bg_file).resize((width,height))
+
+    bg.paste(kebiao,mask=kebiao)
+    bg=bg.convert('RGB')
+    # bg.show()
+
+    draw = ImageDraw.Draw(bg)
     # w, h = font.getsize(txt)
 
     if datetime.date.today().weekday() + 1 != 5:
-        # zhiri_txt = "二班黑板：%s\n二班扫地：%s\n二班整理：%s\n值日班长：%s" % (
-        # yu(people), yu(people + 1), yu(people + 2), yu(zrbz),)
-        zhiri_txt = "二班黑板：%s\n二班扫地：%s" % (yu(people), yu(people + 1))
+        zhiri_txt = "二班黑板：%s\n二班扫地：%s\n二班整理：%s\n值日班长：%s" % (
+        yu(people), yu(people + 1), yu(people + 2), yu(zrbz),)
+        # zhiri_txt = "二班黑板：%s\n二班扫地：%s\n二班整理：%s" % (yu(people), yu(people + 1), yu(people + 2))
     else:
-        # zhiri_txt = '\n值日班长：%s' % (yu(zrbz))
-        zhiri_txt = ''
+        zhiri_txt = '\n值日班长：%s' % (yu(zrbz))
+        zhiri_txt = "二班黑板：%s\n二班扫地：%s\n二班整理：%s\n值日班长：%s" % (
+        yu(people), yu(people + 1), yu(people + 2), yu(zrbz),)
+        # zhiri_txt = ''
 
     # zhiri_txt="黑板: %s,%s \n扫地: %s,%s\n"%(yu(people),yu(people+1),yu(people+2),yu(people+3))
 
@@ -99,7 +121,7 @@ def create_wp(txt1, txt2, people, zrbz):
     # txt2 = '教师节倒计时0天'
     # draw.text(((width-w)/2, (height-h)/2-250), txt2, fill=(255,0,0), font=font)
 
-    image.save('wallpaper.png')
+    bg.save('wallpaper.png')
 
 
 def set_wp():
